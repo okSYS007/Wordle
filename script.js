@@ -5,12 +5,20 @@ function fetchData() {
     .then(data => {
         // Разбиваем текст на массив слов
         const wordsArray = data.split(',');
-        // Выбираем случайное слово из массива
+        // Получаем случайное слово из массива
         const randomIndex = Math.floor(Math.random() * wordsArray.length);
         const randomWord = wordsArray[randomIndex].trim(); // Удаляем лишние пробелы
-        // Выводим случайное слово в HTML
-        const dataElement = document.getElementById('dataElement');
-        dataElement.textContent = randomWord;
+        const word = randomWord;
+        document.getElementById('word').textContent = randomWord;
+        // Создаем указанное количество div, равное длине случайного слова
+        for (let i = 0; i < randomWord.length; i++) {
+            const div = document.createElement('div');
+            // Устанавливаем текст div равным букве из случайного слова
+            //div.textContent = randomWord[i];
+            // Добавляем div в контейнер
+            const container = document.getElementById('container');
+            container.appendChild(div);
+        }
     })
     .catch(error => console.error('Ошибка при получении данных из файла:', error));
 }
