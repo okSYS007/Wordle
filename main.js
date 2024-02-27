@@ -1,17 +1,19 @@
-// Создаем новый экземпляр объекта XMLHttpRequest
-var xhr = new XMLHttpRequest();
+// Функция для выполнения асинхронного запроса к файлу data.txt
+function fetchData() {
+    fetch('data.txt')
+    .then(response => response.text()) // Получаем текст ответа
+    .then(data => {
+        // Разбиваем текст на массив слов
+        const wordsArray = data.split(',');
+        // Выбираем случайное слово из массива
+        const randomIndex = Math.floor(Math.random() * wordsArray.length);
+        const randomWord = wordsArray[randomIndex].trim(); // Удаляем лишние пробелы
+        // Выводим случайное слово в HTML
+        const dataElement = document.getElementById('dataElement');
+        dataElement.textContent = randomWord;
+    })
+    .catch(error => console.error('Ошибка при получении данных из файла:', error));
+}
 
-// Настраиваем обработчик события, который будет вызываться при изменении состояния объекта XMLHttpRequest
-xhr.onreadystatechange = function() {
-    // Если состояние запроса DONE (4) и статус ответа HTTP 200 (OK)
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        // Получаем текст ответа и помещаем его внутрь элемента с id "dataContainer"
-        document.getElementById("dataContainer").innerHTML = xhr.responseText;
-    }
-};
-
-// Открываем соединение с файлом data.txt методом GET
-xhr.open("GET", "data.txt", true);
-
-// Отправляем запрос
-xhr.send();
+// Вызываем функцию для получения данных
+fetchData();
